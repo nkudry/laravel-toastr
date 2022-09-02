@@ -34,13 +34,13 @@ class Toastr
         $this->config  = $config;
     }
 
-    public function message()
+    public function message($include_script = true)
     {
         $messages = $this->session->get('toastr::messages');
 
         if (! $messages) $messages = [];
 
-        $script = '<script type="text/javascript">';
+        $script = $include_script ? '<script type="text/javascript">' : '';
 
         foreach ($messages as $message) {
            $config = (array) $this->config->get('toastr.options');
@@ -59,11 +59,9 @@ class Toastr
                 '(\'' . addslashes($message['message']) .
                 "','$title" .
                 '\');';
-
-
         }
 
-        $script .= '</script>';
+        $script .= $include_script ? '</script>' : '';
         return $script;
     }
 
